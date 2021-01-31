@@ -7,28 +7,28 @@
 
 import Foundation
 
-struct Transaction {
+public struct Transaction {
 
     /// The date of the transaction
-    let date: Date
+    public let date: Date
 
     /// The payee (or payer)
-    let payee: String
+    public let payee: String
 
     /// The amount, in cents
-    let amountInCents: Int
+    public let amountInCents: Int
 
     /// The daily cash %
-    let dailyCash: Int
+    public let dailyCash: Int
 
     /// A memo for the transaction
-    let memo: String
+    public let memo: String
 
     /// If the transaction is pending
-    let pending: Bool
+    public let pending: Bool
 
     /// If the transaction was marked as declined
-    let declined: Bool
+    public let declined: Bool
 
     fileprivate static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -37,7 +37,7 @@ struct Transaction {
     }()
 }
 
-extension Array where Element == Transaction {
+public extension Array where Element == Transaction {
     var csvEntries: String {
         map { $0.csvEntry }.joined(separator: "\n")
     }
@@ -60,7 +60,7 @@ extension Array where Element == Transaction {
 }
 
 fileprivate extension Transaction {
-    static var csvHeader: String {
+    public static var csvHeader: String {
         "Date,Payee,Amount,DailyCash,Memo,Pending,Declined"
     }
 

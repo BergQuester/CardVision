@@ -8,24 +8,24 @@
 import SwiftUI
 
 #if os(iOS) || os(watchOS) || os(tvOS)
-typealias APImage = UIImage
+public typealias APImage = UIImage
 
-extension UIImage {
+public extension UIImage {
     convenience init?(contentsOf url: URL) {
         self.init(contentsOfFile: url.absoluteString)
     }
 }
 
-extension Image {
+public extension Image {
     init(apImage: APImage) {
         self.init(uiImage: apImage)
     }
 }
 
 #elseif os(macOS)
-typealias APImage = NSImage
+public typealias APImage = NSImage
 
-extension NSImage {
+public extension NSImage {
     var cgImage: CGImage? {
         var imageRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         let imageRef = cgImage(forProposedRect: &imageRect, context: nil, hints: nil)
@@ -33,7 +33,7 @@ extension NSImage {
     }
 }
 
-extension Image {
+public extension Image {
     init(apImage: APImage) {
         self.init(nsImage: apImage)
     }

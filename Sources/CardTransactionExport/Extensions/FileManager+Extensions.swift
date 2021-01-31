@@ -8,7 +8,7 @@
 import Foundation
 
 extension FileManager {
-    func images(inPath: String) -> [TransactionImage] {
+    public func images(inPath: String) -> [TransactionImage] {
         let manager = FileManager()
 
         do {

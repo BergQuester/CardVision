@@ -8,22 +8,22 @@
 import Foundation
 import CoreImage
 
-struct TransactionImage {
+public struct TransactionImage {
     /// The location of the file
-    let imageURL: URL
+    public let imageURL: URL
 
     /// The loaded image
-    var image: APImage
+    public var image: APImage
 
     /// Creation Date
-    var creationDate: Date
+    public var creationDate: Date
 
     /// Read transactions
-    var transactions: [Transaction] = []
+    public var transactions: [Transaction] = []
 }
 
 
-extension TransactionImage {
+public extension TransactionImage {
     init?(withURL url: URL) {
 
         guard let data = try? Data(contentsOf: url),
@@ -74,7 +74,7 @@ extension Array where Element == TransactionImage {
         map(TransactionImage.read(image:))
     }
 
-    func allTransactions() -> [Transaction] {
+    public func allTransactions() -> [Transaction] {
         arrayFromReading()
             .map { $0.transactions }
             .reduce([]) { $0 + $1 }
