@@ -37,4 +37,3 @@ extension FileManager {
         return TransactionImage(withURL: url)
     }
 }
-

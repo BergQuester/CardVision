@@ -22,7 +22,6 @@ public struct TransactionImage {
     public var transactions: [Transaction] = []
 }
 
-
 public extension TransactionImage {
     init?(withURL url: URL) {
 
@@ -41,7 +40,7 @@ public extension TransactionImage {
     mutating func read() {
         guard let cgImage = image.cgImage else { return }
 
-        var readText: TransactionReaderOCRText? = nil
+        var readText: TransactionReaderOCRText?
 
         let readGroup = DispatchGroup()
         readGroup.enter()

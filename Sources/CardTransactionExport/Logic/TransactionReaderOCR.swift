@@ -9,7 +9,7 @@ import Vision
 
 struct TransactionReaderOCR {
 
-    typealias ReadResult = (Result<TransactionReaderOCRText, Error>) -> ()
+    typealias ReadResult = (Result<TransactionReaderOCRText, Error>) -> Void
 
     // Get the CGImage on which to perform requests.
     static func read(image: CGImage, completionHandler: ReadResult?) {
