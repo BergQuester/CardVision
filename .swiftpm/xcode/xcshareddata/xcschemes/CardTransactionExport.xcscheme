@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CardTransactionExport"
-               BuildableName = "CardTransactionExport"
-               BlueprintName = "CardTransactionExport"
+               BlueprintIdentifier = "CardVision"
+               BuildableName = "CardVision"
+               BlueprintName = "CardVision"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CardTransactionExportTests"
-               BuildableName = "CardTransactionExportTests"
-               BlueprintName = "CardTransactionExportTests"
+               BlueprintIdentifier = "CardVisionTests"
+               BuildableName = "CardVisionTests"
+               BlueprintName = "CardVisionTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CardTransactionExportTests"
-               BuildableName = "CardTransactionExportTests"
-               BlueprintName = "CardTransactionExportTests"
+               BlueprintIdentifier = "CardVisionTests"
+               BuildableName = "CardVisionTests"
+               BlueprintName = "CardVisionTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -74,9 +74,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CardTransactionExport"
-            BuildableName = "CardTransactionExport"
-            BlueprintName = "CardTransactionExport"
+            BlueprintIdentifier = "CardVision"
+            BuildableName = "CardVision"
+            BlueprintName = "CardVision"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

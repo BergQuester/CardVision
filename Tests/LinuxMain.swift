@@ -1,7 +1,7 @@
 import XCTest
 
-import CardTransactionExportTests
+import CardVisionTests
 
 var tests = [XCTestCaseEntry]()
-tests += CardTransactionExportTests.allTests()
+tests += CardVisionTests.allTests()
 XCTMain(tests)
