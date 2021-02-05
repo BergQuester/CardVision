@@ -59,8 +59,8 @@ public extension Array where Element == Transaction {
     }
 }
 
-fileprivate extension Transaction {
-    public static var csvHeader: String {
+public extension Transaction {
+    static var csvHeader: String {
         "Date,Payee,Amount,DailyCash,Memo,Pending,Declined"
     }
 
@@ -70,32 +70,32 @@ fileprivate extension Transaction {
         return values.joined(separator: ",")
     }
 
-    var formattedDate: String {
+    internal var formattedDate: String {
         Self.dateFormatter.string(from: date)
     }
 
-    var formattedPayee: String {
+    internal var formattedPayee: String {
         payee.commasStriped
     }
 
-    var formattedAmount: String {
+    internal var formattedAmount: String {
         "\(formattedDollarAmount).\(formattedCentAmount)"
     }
 
-    var formattedDollarAmount: String {
+    internal var formattedDollarAmount: String {
         "\(amountInCents / 100)"
     }
 
-    var formattedCentAmount: String {
+    internal var formattedCentAmount: String {
         let cents = abs(amountInCents) % 100
         return String(format: "%02d", cents)
     }
 
-    var formattedDailyCash: String {
+    internal var formattedDailyCash: String {
         "\(dailyCash)"
     }
 
-    var formattedDescription: String {
+    internal var formattedDescription: String {
         memo.commasStriped
     }
 }
