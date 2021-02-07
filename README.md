@@ -38,6 +38,8 @@ let csvData = FileManager()
 
 ![Example Screenshot Cropping](RepositoryImages/ExampleCroppinog.jpg)
 
+* The library does not attempt to deduplicate transactions that show up in multiple screenshots.
+
 ## Contributions
 
 Contributions are welcome. Some areas that need some help:
