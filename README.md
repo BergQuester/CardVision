@@ -14,6 +14,10 @@ While the Wallet app provides exports for Apple Cards at the end of each month, 
 * Xcode 11+
 * No external dependancies!
 
+## Installation
+
+Use Swift Package Manager.
+
 ## Example
 
 ```
@@ -44,3 +48,5 @@ Contributions are welcome. Some areas that need some help:
 * Address limitations
 
 ## Liscense
+
+[MIT](Liscense)
