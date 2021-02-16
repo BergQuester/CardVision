@@ -15,8 +15,8 @@ let package = Package(
             name: "CardVision",
             targets: ["CardVision"]),
         .executable(
-            name: "CardExport",
-            targets: ["CardExport"]
+            name: "CardVisionCLI",
+            targets: ["CardVisionCLI"]
         )
     ],
     dependencies: [
@@ -30,7 +30,7 @@ let package = Package(
             name: "CardVision",
             dependencies: []),
         .target(
-            name: "CardExport",
+            name: "CardVisionCLI",
             dependencies: ["CardVision"]),
         .testTarget(
             name: "CardVisionTests",
