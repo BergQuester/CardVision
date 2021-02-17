@@ -13,7 +13,11 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "CardVision",
-            targets: ["CardVision"])
+            targets: ["CardVision"]),
+        .executable(
+            name: "CardVisionCLI",
+            targets: ["CardVisionCLI"]
+        )
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -25,6 +29,9 @@ let package = Package(
         .target(
             name: "CardVision",
             dependencies: []),
+        .target(
+            name: "CardVisionCLI",
+            dependencies: ["CardVision"]),
         .testTarget(
             name: "CardVisionTests",
             dependencies: ["CardVision"])
