@@ -1,24 +1,46 @@
 # CardVision
 
-## Purpose
+## Overview
+
+### Purpose
 
 While the Wallet app provides exports for Apple Cards at the end of each month, many of us like to handle our budgets on a more frequent basis. However, the Wallet app provides no mechanism for this. This package uses Apple's Vision framework to read Wallet screenshots and export transactions to CVS files.
 
-## Supported Plaforms
+### Supported Plaforms
 
 * macOS 10.15+
 * iOS 13+
 
-## Requirements
+## Limitations
+
+* Screenhots must be cropped such that only transaction information, without icon, is shown as in the following example:
+
+![Example Screenshot Cropping](RepositoryImages/ExampleCroppinog.jpg)
+
+* CardVision does not currently attempt to deduplicate transactions that show up in multiple screenshots.
+
+## Commandline tool
+
+### Installation
+
+`brew install bergquester/bergquester/cardvision`
+
+### Usage
+
+`cardvision -imagePath <path_to_cropped_images> -outputPath <path_to_output_file>`
+
+## Swift Package
+
+### Requirements
 
 * Xcode 11+
 * No external dependancies!
 
-## Installation
+### Installation
 
 Use Swift Package Manager.
 
-## Example
+### Example
 
 ```
 import CardVision
@@ -31,14 +53,6 @@ let csvData = FileManager()
     .filtered(isDeclined: false)
     .csvData
 ```
-
-## Limitations
-
-* Screenhots must be cropped such that only transaction information, without icon, is shown as in the following example:
-
-![Example Screenshot Cropping](RepositoryImages/ExampleCroppinog.jpg)
-
-* The library does not attempt to deduplicate transactions that show up in multiple screenshots.
 
 ## Contributions
 
