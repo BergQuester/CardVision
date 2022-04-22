@@ -26,7 +26,7 @@ extension FileManager {
     func isImage(_ path: String) -> Bool {
         let result = ["jpeg", "jpg", "png"]
             .reduce(false) {acc, item in
-                return acc || path.hasSuffix(item)
+                return acc || path.lowercased().hasSuffix(item)
             }
 
         return result
