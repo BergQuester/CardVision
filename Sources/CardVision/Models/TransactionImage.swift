@@ -77,5 +77,6 @@ extension Array where Element == TransactionImage {
         arrayFromReading()
             .map { $0.transactions }
             .reduce([]) { $0 + $1 }
+            .sorted { $0.date < $1.date }
     }
 }
