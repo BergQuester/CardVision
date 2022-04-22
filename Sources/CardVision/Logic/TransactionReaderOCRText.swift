@@ -106,7 +106,9 @@ fileprivate extension Array where Element == String {
         var dailyCash: String?
 
         if Self.isDailyCashTransaction(payee: payee, memo: memo) {
-            dailyCash = pop()
+            repeat {
+                dailyCash = pop()
+            } while !(dailyCash?.contains { $0 == "%" } ?? true)
         }
 
         guard var timeDescription = baTimeDescription ?? pop() else { return nil }
