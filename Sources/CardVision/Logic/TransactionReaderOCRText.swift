@@ -9,6 +9,12 @@ import Foundation
 
 typealias TransactionReaderOCRText = [String]
 
+extension String {
+    func isMatchedBy(regex: String) -> Bool {
+        return (self.range(of: regex, options: .regularExpression) ?? nil) != nil
+    }
+}
+
 extension TransactionReaderOCRText {
     func parseTransactions(screenshotDate: Date) -> [Transaction] {
         var ocrText = self
@@ -116,6 +122,15 @@ fileprivate extension Array where Element == String {
         // sometimes "ago" ends up on the next line
         if timeDescription.contains("hour") && !timeDescription.contains("ago") {
             timeDescription = timeDescription + " " + (pop() ?? "")
+        }
+        // Attempt to remove family member's name from description when using Family Sharing.
+        // ex. "NAME - Yesterday"
+        if timeDescription.contains(" ") && !timeDescription.isMatchedBy(regex: "^[0-9]"){
+            // If string contains spaces and does not start with a number.
+            timeDescription = timeDescription
+                .replacingOccurrences(of: "-", with: " ") // Remove the "-", sometimes it isn't picked up by OCR
+                .split(separator: " ", maxSplits: 1)[1]   // Get everything after the first space
+                .trimmingCharacters(in: .whitespaces)     // Trim whitespace
         }
 
         // Check if declined and pending
