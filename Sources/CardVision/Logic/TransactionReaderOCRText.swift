@@ -106,7 +106,7 @@ fileprivate extension Array where Element == String {
             foundMemo = pop()
         }
 
-        guard let memo = foundMemo else { return nil }
+        guard var memo = foundMemo else { return nil }
 
         // Not all transactions have daily cash rewards
         var dailyCash: String?
@@ -126,12 +126,18 @@ fileprivate extension Array where Element == String {
         // Attempt to remove family member's name from description when using Family Sharing.
         // ex. "NAME - Yesterday"
         if timeDescription.contains(" ") && !timeDescription.isMatchedBy(regex: "^[0-9]"){
-            // If string contains spaces and does not start with a number.
-            timeDescription = timeDescription
+            let splitTimeDescription = timeDescription
                 .replacingOccurrences(of: "-", with: " ") // Remove the "-", sometimes it isn't picked up by OCR
-                .split(separator: " ", maxSplits: 1)[1]   // Get everything after the first space
+                .split(separator: " ", maxSplits: 1)
+            // Prepend the family member to the memo.
+            let familyMember = String(splitTimeDescription[0])
+            memo = familyMember + " - " + memo
+            // If string contains spaces and does not start with a number.
+            timeDescription = splitTimeDescription[1]   // Get everything after the first space
                 .trimmingCharacters(in: .whitespaces)     // Trim whitespace
         }
+        
+        
 
         // Check if declined and pending
         let declined = Self.isDeclinedTransaction(declinedCandidate: memo)
@@ -281,7 +287,7 @@ extension IntermediateTransaction {
             return nil
         }
 
-        return baseDate.date(byAddingHours: -minutes)
+        return baseDate.date(byAddingMinutes: -minutes)
     }
 
     func leadingValue(in string: String, containing: String) -> Int? {
