@@ -9,6 +9,7 @@ import Foundation
 
 typealias TransactionReaderOCRText = [String]
 
+
 extension TransactionReaderOCRText {
     func parseTransactions(screenshotDate: Date) -> [Transaction] {
         var ocrText = self
@@ -35,6 +36,7 @@ fileprivate extension Array where Element == String {
         return top
     }
 
+    /// Determines if the payee and memo combination constitute a Daily Cash transaction.
     static func isDailyCashTransaction(payee: String, memo: String) -> Bool {
         // Non-daily cash payee
         let nonDailyCashPayees = ["Payment", "Daily Cash Adjustment", "Balance Adjustment"]
@@ -45,19 +47,31 @@ fileprivate extension Array where Element == String {
         return !(memo.contains("Refund") || isDeclinedTransaction(declinedCandidate: memo))
     }
 
+    /// Determines if the given amount string is a valid monetary amount
     static func isAmount(amountCandidate: String) -> Bool {
-        amountCandidate.range(of: #"^\+*\$[\d,]*\.\d\d$"#, options: .regularExpression) != nil
+        amountCandidate.isMatchedBy(regex: #"^\+*\$[\d,]*\.\d\d$"#)
     }
 
+    /// Determines if the given transaction string is "Declined"
     static func isDeclinedTransaction(declinedCandidate: String) -> Bool {
         declinedCandidate.contains("Declined")
     }
 
+    /// Determines if the given transaction string is "Pending"
     static func isPendingTransaction(pendingCandidate: String) -> Bool {
         pendingCandidate.contains("Pending")
     }
 
+    /// Determines if the given string contains a valid timestamp
+    static func isTimestamp(timestampCandidate: String) -> Bool {
+        return (timestampCandidate.isMatchedBy(regex: "[0-9]{1,2} (?:minute|hour)s{0,1} ago") || // relative timestamp
+            timestampCandidate.isMatchedBy(regex: "\\d{1,2}\\/\\d{1,2}\\/\\d{2}") || // mm/dd/yy date stamp
+            timestampCandidate.isMatchedBy(regex: "(?i)W*(?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun|Yester)day\\b[sS]*")) // Day of week, including "Yesterday"
+        
+    }
+
     // TODO: Refactor this to a better place
+    /// Iterates over the ocrText array to process the raw text into an IntermediateTransaction
     mutating func nextTransaction() -> IntermediateTransaction? {
         if Self.debug {
             print(self.debugDescription)
@@ -67,7 +81,7 @@ fileprivate extension Array where Element == String {
             return nil
         }
 
-        // Sometimes payee names get broken into additiona lines
+        // Sometimes payee names get broken into additional lines
         // Keep iterating until we find a valid transaction amount
         var foundAmount: String?
         while foundAmount == nil {
@@ -100,7 +114,7 @@ fileprivate extension Array where Element == String {
             foundMemo = pop()
         }
 
-        guard let memo = foundMemo else { return nil }
+        guard var memo = foundMemo else { return nil }
 
         // Not all transactions have daily cash rewards
         var dailyCash: String?
@@ -110,13 +124,32 @@ fileprivate extension Array where Element == String {
                 dailyCash = pop()
             } while !(dailyCash?.contains { $0 == "%" } ?? true)
         }
-
+        
+        // Sometimes "ago" winds up on the next line and separators from Family Sharing mess with the timestamp.
+        // Keep building the string until it contains a valid time stamp.
         guard var timeDescription = baTimeDescription ?? pop() else { return nil }
-
-        // sometimes "ago" ends up on the next line
-        if timeDescription.contains("hour") && !timeDescription.contains("ago") {
+        while (!Self.isTimestamp(timestampCandidate: timeDescription) && count > 0) {
             timeDescription = timeDescription + " " + (pop() ?? "")
         }
+        timeDescription = timeDescription
+            .replacingOccurrences(of: "-", with: " ")
+            .replacingOccurrences(of: "•", with: " ")
+        
+        // Attempt to remove family member's name from description when using Family Sharing.
+        // ex. "NAME - Yesterday"
+        // If the description contains spaces and does not start with a number, it likely starts with the family member's name.
+        if timeDescription.contains(" ") && !timeDescription.isMatchedBy(regex: "^[0-9]"){
+            let splitTimeDescription = timeDescription
+                .split(separator: " ", maxSplits: 1)
+            // Prepend the family member to the memo.
+            let familyMember = String(splitTimeDescription[0])
+            memo = familyMember + " - " + memo
+            // If string contains spaces and does not start with a number.
+            timeDescription = splitTimeDescription[1]   // Get everything after the first space
+                .trimmingCharacters(in: .whitespaces)     // Trim whitespace
+        }
+        
+        
 
         // Check if declined and pending
         let declined = Self.isDeclinedTransaction(declinedCandidate: memo)
@@ -266,7 +299,7 @@ extension IntermediateTransaction {
             return nil
         }
 
-        return baseDate.date(byAddingHours: -minutes)
+        return baseDate.date(byAddingMinutes: -minutes)
     }
 
     func leadingValue(in string: String, containing: String) -> Int? {

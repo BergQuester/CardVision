@@ -31,7 +31,7 @@ public extension TransactionImage {
         }
 
         let urlCreationDate = try? url.resourceValues(forKeys: [.creationDateKey]).creationDate
-        creationDate = urlCreationDate ?? Date()
+        creationDate = urlCreationDate ?? Date.current
 
         imageURL = url
         self.image = image
