@@ -1,5 +1,9 @@
 # CardVision
 
+# Deprecated
+
+Since as of [iOS 17.4](https://www.macrumors.com/2024/03/05/apple-card-ios-17-4-budget-apps/) Apple allows budget apps to directly import real-time transaction data, this project have been depreacted. Apple's API is much more reliable than OCRing screenshots.
+
 ## Overview
 
 ### Purpose
